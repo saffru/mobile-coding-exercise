@@ -21,16 +21,16 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     ListView list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://run.mocky.io/v3/eef3c24d-5bfd-4881-9af7-0b404ce09507";
+        String url = "https://run.mocky.io/v3/eef3c24d-5bfd-4881-9af7-0b404ce09507";
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -40,19 +40,30 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             String[] titles = new String[jsonArray.length()];
+                            String[] subtitles = new String[jsonArray.length()];
                             String[] ratings = new String[jsonArray.length()];
                             String[] prices = new String[jsonArray.length()];
+                            String[] currencies = new String[jsonArray.length()];
+                            int[] stars = new int[jsonArray.length()];
                             String[] images = new String[jsonArray.length()];
 
-                            for (int i=0; i < jsonArray.length(); i++) {
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject hotel = jsonArray.getJSONObject(i);
                                 titles[i] = hotel.getString("name");
                                 ratings[i] = hotel.getString("userRating");
                                 prices[i] = hotel.getString("price");
                                 images[i] = hotel.getJSONArray("gallery").getString(0);
+                                JSONObject location = hotel.getJSONObject(
+                                        "location");
+                                subtitles[i] =
+                                        location.getString("address") + ", " + location.getString("city");
                             }
-                            MyListAdapter adapter=new MyListAdapter(MainActivity.this, titles, ratings, images);
-                            list=(ListView)findViewById(R.id.list);
+                            MyListAdapter adapter =
+                                    new MyListAdapter(MainActivity.this,
+                                            titles, subtitles, images,
+                                            ratings, prices, currencies,
+                                            stars);
+                            list = findViewById(R.id.list);
                             list.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();

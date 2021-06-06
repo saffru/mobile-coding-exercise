@@ -34,48 +34,44 @@ public class MainActivity extends AppCompatActivity {
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            String[] titles = new String[jsonArray.length()];
-                            String[] subtitles = new String[jsonArray.length()];
-                            String[] ratings = new String[jsonArray.length()];
-                            String[] prices = new String[jsonArray.length()];
-                            String[] currencies = new String[jsonArray.length()];
-                            int[] stars = new int[jsonArray.length()];
-                            String[] images = new String[jsonArray.length()];
+                response -> {
+                    try {
+                        JSONArray jsonArray = new JSONArray(response);
+                        String[] titles = new String[jsonArray.length()];
+                        String[] subtitles = new String[jsonArray.length()];
+                        String[] ratings = new String[jsonArray.length()];
+                        String[] prices = new String[jsonArray.length()];
+                        String[] currencies = new String[jsonArray.length()];
+                        int[] stars = new int[jsonArray.length()];
+                        String[] images = new String[jsonArray.length()];
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject hotel = jsonArray.getJSONObject(i);
-                                titles[i] = hotel.getString("name");
-                                ratings[i] = hotel.getString("userRating");
-                                prices[i] = hotel.getString("price");
-                                images[i] = hotel.getJSONArray("gallery").getString(0);
-                                JSONObject location = hotel.getJSONObject(
-                                        "location");
-                                subtitles[i] =
-                                        location.getString("address") + ", " + location.getString("city");
-                            }
-                            MyListAdapter adapter =
-                                    new MyListAdapter(MainActivity.this,
-                                            titles, subtitles, images,
-                                            ratings, prices, currencies,
-                                            stars);
-                            list = findViewById(R.id.list);
-                            list.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject hotel = jsonArray.getJSONObject(i);
+                            titles[i] = hotel.getString("name");
+                            ratings[i] = hotel.getString("userRating");
+                            prices[i] = hotel.getString("price");
+                            currencies[i] = hotel.getString("currency");
+                            images[i] = hotel.getJSONArray("gallery").getString(0);
+                            JSONObject location = hotel.getJSONObject(
+                                    "location");
+                            subtitles[i] =
+                                    location.getString("address") + ", " + location.getString("city");
+                            stars[i] = hotel.getInt("stars");
                         }
-                        // Display the first 500 characters of the response string.
-                        //textView.setText("Response is: "+ response.substring(0,500));
+                        MyListAdapter adapter =
+                                new MyListAdapter(MainActivity.this,
+                                        titles, subtitles, images,
+                                        ratings, prices, currencies,
+                                        stars);
+                        list = findViewById(R.id.list);
+                        list.setAdapter(adapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });
+                    // Display the first 500 characters of the response string.
+                    //textView.setText("Response is: "+ response.substring(0,500));
+                }, error -> {
+                });
 
 // Add the request to the RequestQueue.
         queue.add(stringRequest);

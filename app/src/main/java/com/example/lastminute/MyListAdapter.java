@@ -45,16 +45,40 @@ public class MyListAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.mylist, null,true);
 
-        TextView titleText = rowView.findViewById(R.id.title);
-        TextView subtitleText = rowView.findViewById(R.id.subtitle);
+        TextView titleText = rowView.findViewById(R.id.tv_title);
+        TextView subtitleText = rowView.findViewById(R.id.tv_subtitle);
         ImageView imageView = rowView.findViewById(R.id.icon);
-        //TextView ratings = rowView.findViewById(R.id.);
-        //TextView price = rowView.findViewById(R.id.tv_price);
-        //LinearLayout ll_stars = rowView.findViewById(R.id.subtitle);
+        TextView tv_ratings = rowView.findViewById(R.id.tv_rating);
+        TextView tv_price = rowView.findViewById(R.id.tv_price);
+        TextView tv_currency = rowView.findViewById(R.id.tv_currency);
+        LinearLayout ll_stars = rowView.findViewById(R.id.ll_stars);
+        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(32,32);
 
         titleText.setText(maintitle[position]);
         Picasso.get().load(imgid[position]).into(imageView);
         subtitleText.setText(subtitle[position]);
+        tv_ratings.setText(ratings[position]);
+        tv_price.setText(prices[position]);
+        String currency;
+        switch (currencies[position]){
+            case "USD":
+            case "AUD":
+                currency = "$";
+                break;
+            case "GBP":
+                currency = "£";
+                break;
+            default:
+                currency = "€";
+        }
+        tv_currency.setText(currency);
+
+        for(int x=0;x<stars[position];x++) {
+            ImageView image = new ImageView(context);
+            image.setImageResource(R.drawable.ic_baseline_star_24);
+            ll_stars.addView(image);
+            image.setLayoutParams(parms);
+        }
 
         return rowView;
 

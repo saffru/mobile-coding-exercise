@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">LastMinute</string>
+    <string name="hotel_image">hotel image</string>
+    <string name="hotel">HOTEL</string>
+    <string name="face_ratings">face_ratings</string>
+    <string name="right_arrow">right arrow</string>
 </resources>

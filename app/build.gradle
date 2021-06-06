@@ -42,4 +42,6 @@ dependencies {
     implementation 'com.android.volley:volley:1.2.0'
     //image from url
     implementation 'com.squareup.picasso:picasso:2.71828'
+    //image carousel
+    implementation 'com.github.jama5262:CarouselView:1.1.0'
 }

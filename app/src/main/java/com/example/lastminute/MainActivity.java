@@ -2,6 +2,7 @@ package com.example.lastminute;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,32 +38,44 @@ public class MainActivity extends AppCompatActivity {
                 response -> {
                     try {
                         JSONArray jsonArray = new JSONArray(response);
-                        String[] titles = new String[jsonArray.length()];
-                        String[] subtitles = new String[jsonArray.length()];
-                        String[] ratings = new String[jsonArray.length()];
-                        String[] prices = new String[jsonArray.length()];
-                        String[] currencies = new String[jsonArray.length()];
+                        String[] ids = new String[jsonArray.length()];
+                        String[] names = new String[jsonArray.length()];
+                        String[] locations = new String[jsonArray.length()];
                         int[] stars = new int[jsonArray.length()];
-                        String[] images = new String[jsonArray.length()];
+                        JSONObject checkIns = new JSONObject();
+                        JSONObject checkOuts = new JSONObject();
+                        JSONObject contacts = new JSONObject();
+                        int[] prices = new int[jsonArray.length()];
+                        String[] currencies = new String[jsonArray.length()];
+
+                        String[] ratings = new String[jsonArray.length()];
+                        JSONArray ss []= new JSONArray[10];
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject hotel = jsonArray.getJSONObject(i);
-                            titles[i] = hotel.getString("name");
-                            ratings[i] = hotel.getString("userRating");
-                            prices[i] = hotel.getString("price");
-                            currencies[i] = hotel.getString("currency");
-                            images[i] = hotel.getJSONArray("gallery").getString(0);
+                            names[i] = hotel.getString("name");
                             JSONObject location = hotel.getJSONObject(
                                     "location");
-                            subtitles[i] =
+                            locations[i] =
                                     location.getString("address") + ", " + location.getString("city");
                             stars[i] = hotel.getInt("stars");
+                            checkIns = hotel.getJSONObject(
+                                    "checkIn");
+                            checkOuts = hotel.getJSONObject(
+                                    "checkOut");
+                            contacts = hotel.getJSONObject(
+                                    "contact");
+                            ss[i] = hotel.getJSONArray("gallery");
+                            ratings[i] = hotel.getString("userRating");
+                            prices[i] = hotel.getInt("price");
+                            currencies[i] = hotel.getString("currency");
                         }
+
                         MyListAdapter adapter =
-                                new MyListAdapter(MainActivity.this,
-                                        titles, subtitles, images,
+                                new MyListAdapter(MainActivity.this, ids,
+                                        names, locations, ss,
                                         ratings, prices, currencies,
-                                        stars);
+                                        stars, checkIns, checkOuts, contacts);
                         list = findViewById(R.id.list);
                         list.setAdapter(adapter);
                     } catch (JSONException e) {

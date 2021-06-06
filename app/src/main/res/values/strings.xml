@@ -4,4 +4,11 @@
     <string name="hotel">HOTEL</string>
     <string name="face_ratings">face_ratings</string>
     <string name="right_arrow">right arrow</string>
+    <string name="order">order</string>
+    <string name="filter">filter</string>
+    <string name="stars">Stars</string>
+    <string name="price_descending">Price (descending)</string>
+    <string name="user_ratings">User ratings</string>
+    <string name="price_ascending">Price (ascending)</string>
+    <string name="hotels">Hotels</string>
 </resources>

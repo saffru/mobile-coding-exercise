@@ -6,13 +6,105 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageButton
+        android:id="@+id/ib_order"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:background="@android:color/white"
+        android:rotation="90"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_sync_alt_24"
+        android:contentDescription="@string/order" />
+
+    <ImageButton
+        android:id="@+id/ib_todo"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:background="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_filter_alt_24"
+        android:contentDescription="@string/filter" />
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expandable_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:el_duration="1000"
+        app:el_expanded="false"
+        app:el_parallax="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_stars"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/stars"
+                app:layout_constraintStart_toStartOf="@+id/tv_price_desc"
+                app:layout_constraintTop_toBottomOf="@+id/tv_price_desc" />
+
+            <TextView
+                android:id="@+id/tv_price_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/price_descending"
+                app:layout_constraintStart_toStartOf="@+id/tv_price_asc"
+                app:layout_constraintTop_toBottomOf="@+id/tv_price_asc" />
+
+            <TextView
+                android:id="@+id/tv_ratings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:padding="8dp"
+                android:text="@string/user_ratings"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_price_asc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/price_ascending"
+                app:layout_constraintStart_toStartOf="@+id/tv_ratings"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ratings" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </net.cachapa.expandablelayout.ExpandableLayout>
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="40dp"
+        android:divider="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/expandable_layout">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hotels"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expandable_layout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

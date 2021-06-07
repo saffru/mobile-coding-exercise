@@ -36,15 +36,24 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //variables declaration
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "https://run.mocky.io/v3/eef3c24d-5bfd-4881-9af7-0b404ce09507";
+
         ImageButton ib_order = findViewById(R.id.ib_order);
         ImageButton ib_filter = findViewById(R.id.ib_filter);
+        TextView tv_user_rating = findViewById(R.id.tv_ratings);
+        TextView tv_price_asc = findViewById(R.id.tv_price_asc);
+        TextView tv_price_desc = findViewById(R.id.tv_price_desc);
+        TextView tv_stars = findViewById(R.id.tv_stars);
         ExpandableLayout expandableLayout =
                 findViewById(R.id.expandable_layout);
         ExpandableLayout expandableLayout_filter =
                 findViewById(R.id.expandable_layout_filter);
-
+        RangeSeekBar rangeSeekBar = findViewById(R.id.rangeSeekBar);
         list = findViewById(R.id.list);
 
+        //set up expandable layout
         ib_filter.setOnClickListener(view -> {
             if (expandableLayout_filter.isExpanded()) {
                 expandableLayout_filter.collapse();
@@ -52,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
                 expandableLayout_filter.expand();
             }
         });
-
         ib_order.setOnClickListener(view -> {
             if (expandableLayout.isExpanded()) {
                 expandableLayout.collapse();
@@ -61,14 +69,14 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
             }
         });
 
-        RangeSeekBar rangeSeekBar = findViewById(R.id.rangeSeekBar);
+        //set up seekbar
         rangeSeekBar.setEndProgress(500);
         rangeSeekBar.setMax(500);
         rangeSeekBar.setRangeColor(Color.BLUE);
         rangeSeekBar.setTrackColor(Color.LTGRAY);
         rangeSeekBar.setOnRangeSeekBarListener(MainActivity.this);
 
-        TextView tv_user_rating = findViewById(R.id.tv_ratings);
+        //filters button
         tv_user_rating.setOnClickListener(view -> {
             try {
                 handlingHotels(getSortedList(jsonArray, "userRating", false));
@@ -76,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
                 e.printStackTrace();
             }
         });
-        TextView tv_price_asc = findViewById(R.id.tv_price_asc);
         tv_price_asc.setOnClickListener(view -> {
             try {
                 handlingHotels(getSortedList(jsonArray, "price", true));
@@ -84,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
                 e.printStackTrace();
             }
         });
-        TextView tv_price_desc = findViewById(R.id.tv_price_desc);
         tv_price_desc.setOnClickListener(view -> {
             try {
                 handlingHotels(getSortedList(jsonArray, "price", false));
@@ -92,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
                 e.printStackTrace();
             }
         });
-        TextView tv_stars = findViewById(R.id.tv_stars);
         tv_stars.setOnClickListener(view -> {
             try {
                 handlingHotels(getSortedList(jsonArray, "stars", false));
@@ -101,9 +106,7 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
             }
         });
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://run.mocky.io/v3/eef3c24d-5bfd-4881-9af7-0b404ce09507";
-
+        //sending GET request
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
                     try {
@@ -118,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
     }
 
     private void handlingHotels(JSONArray jsonArray) throws JSONException {
+        //inizialize arrays
         String[] ids = new String[jsonArray.length()];
         String[] names = new String[jsonArray.length()];
         JSONObject[] locations = new JSONObject[jsonArray.length()];
@@ -127,10 +131,10 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
         JSONObject[] contacts = new JSONObject[jsonArray.length()];
         int[] prices = new int[jsonArray.length()];
         String[] currencies = new String[jsonArray.length()];
-
         String[] ratings = new String[jsonArray.length()];
         JSONArray[] images = new JSONArray[10];
 
+        //cycling on hotels
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject hotel = jsonArray.getJSONObject(i);
             names[i] = hotel.getString("name");
@@ -150,9 +154,9 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
             currencies[i] = hotel.getString("currency");
         }
 
+        //call adapter and setup list
         adapter = new MyListAdapter(MainActivity.this, ids, names, locations, images,
                 ratings, prices, currencies, stars, checkIns, checkOuts, contacts);
-
         list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -171,9 +175,10 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
     public void onRangeValues(RangeSeekBar rangeSeekBar, int start, int end) {
         TextView tv_seek_end = findViewById(R.id.tv_seek_end);
         TextView tv_seek_start = findViewById(R.id.tv_seek_start);
-        tv_seek_start.setText(String.valueOf(start)); // example using start value
-        tv_seek_end.setText(String.valueOf(end)); // example using end value
+        tv_seek_start.setText(String.valueOf(start));
+        tv_seek_end.setText(String.valueOf(end));
 
+        //filter hotels using seekbar
         try {
             List<JSONObject> list = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -198,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements OnRangeSeekBarLis
             this.asc = asc;
         }
 
+        //sorting hotel
         @Override
         public int compare(JSONObject l, JSONObject r) {
             try {

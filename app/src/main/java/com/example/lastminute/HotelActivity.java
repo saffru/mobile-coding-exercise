@@ -22,6 +22,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.Objects;
+
 public class HotelActivity extends AppCompatActivity {
 
     @Override
@@ -29,10 +31,23 @@ public class HotelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        //declaration element
         CarouselView carouselView = findViewById(R.id.carouselView);
+        TextView tv_name = findViewById(R.id.tv_name);
+        TextView tv_location = findViewById(R.id.tv_location);
+        TextView tv_email = findViewById(R.id.tv_email);
+        TextView tv_phone = findViewById(R.id.tv_phone);
+        TextView tv_ci_from = findViewById(R.id.tv_ci_from);
+        TextView tv_ci_to = findViewById(R.id.tv_ci_to);
+        TextView tv_co_from = findViewById(R.id.tv_co_from);
+        TextView tv_co_to = findViewById(R.id.tv_co_to);
+        TextView tv_ratings = findViewById(R.id.tv_ratings);
+        TextView tv_latlng = findViewById(R.id.tv_latlng);
+        Button btn_book = findViewById(R.id.btn_book);
 
+        //getting extras
         Bundle b = getIntent().getExtras();
         String images = b.getString("images");
         String name = b.getString("name");
@@ -50,18 +65,7 @@ public class HotelActivity extends AppCompatActivity {
         int price = b.getInt("price");
         String currency = b.getString("currency");
 
-        TextView tv_name = findViewById(R.id.tv_name);
-        TextView tv_location = findViewById(R.id.tv_location);
-        TextView tv_email = findViewById(R.id.tv_email);
-        TextView tv_phone = findViewById(R.id.tv_phone);
-        TextView tv_ci_from = findViewById(R.id.tv_ci_from);
-        TextView tv_ci_to = findViewById(R.id.tv_ci_to);
-        TextView tv_co_from = findViewById(R.id.tv_co_from);
-        TextView tv_co_to = findViewById(R.id.tv_co_to);
-        TextView tv_ratings = findViewById(R.id.tv_ratings);
-        TextView tv_latlng = findViewById(R.id.tv_latlng);
-        Button btn_book = findViewById(R.id.btn_book);
-
+        //setup view
         tv_ci_from.setText(checkin_from);
         tv_ci_to.setText(checkin_to);
         tv_co_from.setText(checkout_from);
@@ -70,7 +74,6 @@ public class HotelActivity extends AppCompatActivity {
         tv_phone.setText(phone);
         tv_ratings.setText(ratings);
         btn_book.setText(String.format("Book at %s %s", price, currency));
-
         tv_latlng.setOnClickListener(v -> {
             // Creates an Intent that will load a map of San Francisco
             Uri gmmIntentUri = Uri.parse("geo:0,0?q="+lat+","+lng+"("+address+")");
@@ -79,11 +82,11 @@ public class HotelActivity extends AppCompatActivity {
             startActivity(mapIntent);
         });
 
+        //setup stars
         LinearLayout ll_stars = findViewById(R.id.ll_stars);
         LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(48, 48);
         tv_name.setText(name);
         tv_location.setText(address);
-
         for (int x = 0; x < stars; x++) {
             ImageView image = new ImageView(this);
             image.setImageResource(R.drawable.ic_baseline_star_24);
@@ -91,6 +94,7 @@ public class HotelActivity extends AppCompatActivity {
             image.setLayoutParams(parms);
         }
 
+        //setup carousel image
         try {
             JSONArray array = new JSONArray(images);
             carouselView.setSize(array.length());
@@ -117,14 +121,13 @@ public class HotelActivity extends AppCompatActivity {
         }
     }
 
+    //back to home
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -37,7 +37,6 @@ public class MyListAdapter extends ArrayAdapter<String> {
                          int[] prices, String[] currencies, int[] stars,
                          JSONObject[] checkIn, JSONObject[] checkOut, JSONObject[] contact) {
         super(context, R.layout.mylist, maintitle);
-        // TODO Auto-generated constructor stub
 
         this.context = context;
         this.id = id;
@@ -53,18 +52,12 @@ public class MyListAdapter extends ArrayAdapter<String> {
         this.contact = contact;
     }
 
-
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.mylist, null, true);
-        String address = "-";
-        try {
-            address = String.format("%s, %s", locations[position].getString("address"), locations[position].getString("city"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        CardView card = rowView.findViewById(R.id.card);
 
+        //declaration view element
+        CardView card = rowView.findViewById(R.id.card);
         TextView titleText = rowView.findViewById(R.id.tv_title);
         TextView subtitleText = rowView.findViewById(R.id.tv_subtitle);
         TextView tv_price = rowView.findViewById(R.id.tv_price);
@@ -74,16 +67,27 @@ public class MyListAdapter extends ArrayAdapter<String> {
         LinearLayout ll_stars = rowView.findViewById(R.id.ll_stars);
         LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(32, 32);
 
-        titleText.setText(maintitle[position]);
+        //compose address
+        String address = "-";
         try {
-            Picasso.get().load(images[position].getString(0)).into(imageView);
+            address = String.format("%s, %s", locations[position].getString("address"), locations[position].getString("city"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         subtitleText.setText(address);
 
+        titleText.setText(maintitle[position]);
         tv_ratings.setText(ratings[position]);
         tv_price.setText(String.valueOf(prices[position]));
+
+        //setup images
+        try {
+            Picasso.get().load(images[position].getString(0)).into(imageView);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //setup price with currency
         String currency;
         switch (currencies[position]) {
             case "USD":
@@ -98,6 +102,7 @@ public class MyListAdapter extends ArrayAdapter<String> {
         }
         tv_currency.setText(currency);
 
+        //setup stars
         for (int x = 0; x < stars[position]; x++) {
             ImageView image = new ImageView(context);
             image.setImageResource(R.drawable.ic_baseline_star_24);
@@ -105,6 +110,7 @@ public class MyListAdapter extends ArrayAdapter<String> {
             image.setLayoutParams(parms);
         }
 
+        //call hotel activity with details
         String finalAddress = address;
         card.setOnClickListener(v -> {
             Intent i_hotel = new Intent(this.context, HotelActivity.class);
@@ -131,8 +137,6 @@ public class MyListAdapter extends ArrayAdapter<String> {
             i_hotel.putExtras(b);
             context.startActivity(i_hotel);
         });
-
         return rowView;
-
     }
 }

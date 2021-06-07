@@ -2,7 +2,7 @@ package com.example.lastminute;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -23,7 +23,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import it.mirko.rangeseekbar.OnRangeSeekBarListener;
+import it.mirko.rangeseekbar.RangeSeekBar;
+
+public class MainActivity extends AppCompatActivity implements OnRangeSeekBarListener {
     ListView list;
     JSONArray jsonArray;
     MyListAdapter adapter;
@@ -34,26 +37,41 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ImageButton ib_order = findViewById(R.id.ib_order);
+        ImageButton ib_filter = findViewById(R.id.ib_filter);
         ExpandableLayout expandableLayout =
                 findViewById(R.id.expandable_layout);
+        ExpandableLayout expandableLayout_filter =
+                findViewById(R.id.expandable_layout_filter);
 
         list = findViewById(R.id.list);
 
+        ib_filter.setOnClickListener(view -> {
+            if (expandableLayout_filter.isExpanded()) {
+                expandableLayout_filter.collapse();
+            } else {
+                expandableLayout_filter.expand();
+            }
+        });
+
         ib_order.setOnClickListener(view -> {
             if (expandableLayout.isExpanded()) {
-                expandableLayout.collapse();
-            } else if (expandableLayout.isExpanded()) {
                 expandableLayout.collapse();
             } else {
                 expandableLayout.expand();
             }
         });
 
+        RangeSeekBar rangeSeekBar = findViewById(R.id.rangeSeekBar);
+        rangeSeekBar.setEndProgress(500);
+        rangeSeekBar.setMax(500);
+        rangeSeekBar.setRangeColor(Color.BLUE);
+        rangeSeekBar.setTrackColor(Color.LTGRAY);
+        rangeSeekBar.setOnRangeSeekBarListener(MainActivity.this);
+
         TextView tv_user_rating = findViewById(R.id.tv_ratings);
         tv_user_rating.setOnClickListener(view -> {
             try {
-                jsonArray = getSortedList(jsonArray, "userRating", false);
-                handlingHotels();
+                handlingHotels(getSortedList(jsonArray, "userRating", false));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -61,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tv_price_asc = findViewById(R.id.tv_price_asc);
         tv_price_asc.setOnClickListener(view -> {
             try {
-                jsonArray = getSortedList(jsonArray, "price", true);
-                handlingHotels();
+                handlingHotels(getSortedList(jsonArray, "price", true));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -70,8 +87,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tv_price_desc = findViewById(R.id.tv_price_desc);
         tv_price_desc.setOnClickListener(view -> {
             try {
-                jsonArray = getSortedList(jsonArray, "price", false);
-                handlingHotels();
+                handlingHotels(getSortedList(jsonArray, "price", false));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -79,8 +95,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tv_stars = findViewById(R.id.tv_stars);
         tv_stars.setOnClickListener(view -> {
             try {
-                jsonArray = getSortedList(jsonArray, "stars", false);
-                handlingHotels();
+                handlingHotels(getSortedList(jsonArray, "stars", false));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -93,16 +108,16 @@ public class MainActivity extends AppCompatActivity {
                 response -> {
                     try {
                         jsonArray = new JSONArray(response);
-                        handlingHotels();
+                        handlingHotels(jsonArray);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }, error -> {
-                });
+        });
         queue.add(stringRequest);
     }
 
-    private void handlingHotels() throws JSONException {
+    private void handlingHotels(JSONArray jsonArray) throws JSONException {
         String[] ids = new String[jsonArray.length()];
         String[] names = new String[jsonArray.length()];
         JSONObject[] locations = new JSONObject[jsonArray.length()];
@@ -152,19 +167,43 @@ public class MainActivity extends AppCompatActivity {
         return new JSONArray(list);
     }
 
+    @Override
+    public void onRangeValues(RangeSeekBar rangeSeekBar, int start, int end) {
+        TextView tv_seek_end = findViewById(R.id.tv_seek_end);
+        TextView tv_seek_start = findViewById(R.id.tv_seek_start);
+        tv_seek_start.setText(String.valueOf(start)); // example using start value
+        tv_seek_end.setText(String.valueOf(end)); // example using end value
+
+        try {
+            List<JSONObject> list = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+                if (object.getInt("price") > start && object.getInt("price") < end) {
+                    list.add(object);
+                }
+            }
+            JSONArray filtered = new JSONArray(list);
+            handlingHotels(filtered);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static class Sort implements Comparator<JSONObject> {
         String type;
         boolean asc;
+
         public Sort(String type, boolean asc) {
             this.type = type;
             this.asc = asc;
         }
+
         @Override
         public int compare(JSONObject l, JSONObject r) {
             try {
-                if(asc)
-                return Integer.compare(l
-                        .getInt(type), r.getInt(type));
+                if (asc)
+                    return Integer.compare(l
+                            .getInt(type), r.getInt(type));
                 else
                     return Integer.compare(r
                             .getInt(type), l.getInt(type));

@@ -8,29 +8,91 @@
 
     <ImageButton
         android:id="@+id/ib_order"
-        android:layout_width="40sp"
-        android:layout_height="40sp"
+        android:layout_width="48sp"
+        android:layout_height="48sp"
         android:background="@android:color/white"
+        android:contentDescription="@string/order"
         android:rotation="90"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_sync_alt_24"
-        android:contentDescription="@string/order" />
+        app:srcCompat="@drawable/ic_baseline_sync_alt_24" />
 
     <ImageButton
-        android:id="@+id/ib_todo"
-        android:layout_width="40sp"
-        android:layout_height="40sp"
+        android:id="@+id/ib_filter"
+        android:layout_width="48sp"
+        android:layout_height="48sp"
         android:background="@android:color/white"
+        android:contentDescription="@string/filter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_filter_alt_24"
-        android:contentDescription="@string/filter" />
+        app:srcCompat="@drawable/ic_baseline_filter_alt_24" />
+
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expandable_layout_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:el_duration="1000"
+        app:el_expanded="false"
+        app:el_parallax="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price"
+                android:valueFrom="0"
+                android:valueTo="10000"
+                app:labelBehavior="withinBounds"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:values="@array/initial_slider_values" />
+
+            <it.mirko.rangeseekbar.RangeSeekBar
+                android:id="@+id/rangeSeekBar"
+                android:layout_width="298dp"
+                android:layout_height="36dp"
+                android:layout_margin="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+            <TextView
+                android:id="@+id/tv_seek_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                app:layout_constraintBottom_toTopOf="@+id/rangeSeekBar"
+                app:layout_constraintStart_toStartOf="@+id/rangeSeekBar" />
+
+            <TextView
+                android:id="@+id/tv_seek_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="500"
+                app:layout_constraintBottom_toTopOf="@+id/rangeSeekBar"
+                app:layout_constraintEnd_toEndOf="@+id/rangeSeekBar" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </net.cachapa.expandablelayout.ExpandableLayout>
 
     <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/expandable_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         app:el_duration="1000"
         app:el_expanded="false"
         app:el_parallax="0.5"
@@ -86,12 +148,12 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:divider="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/expandable_layout">
+        app:layout_constraintTop_toBottomOf="@+id/expandable_layout_filter">
 
     </ListView>
 
@@ -102,7 +164,6 @@
         android:text="@string/hotels"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expandable_layout" />

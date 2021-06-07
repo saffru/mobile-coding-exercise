@@ -11,4 +11,21 @@
     <string name="user_ratings">User ratings</string>
     <string name="price_ascending">Price (ascending)</string>
     <string name="hotels">Hotels</string>
+    <string name="price">Price</string>
+    <string name="_0">0</string>
+    <string name="_500">500</string>
+    <string name="name">Name</string>
+    <string name="position">position</string>
+    <string name="rating">rating</string>
+    <string name="contact_us">Contact us</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="check_in">Check-in</string>
+    <string name="clock">clock</string>
+    <string name="check_out">Check-out</string>
+    <string name="show_on_map">Show on map</string>
+    <string name="external">external</string>
+    <string name="email">email</string>
+    <string name="phone">phone</string>
+    <string name="ratings">Ratings</string>
 </resources>

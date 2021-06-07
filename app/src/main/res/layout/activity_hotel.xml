@@ -63,7 +63,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Name"
+                android:text="@string/name"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -86,7 +86,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="position"
+                android:text="@string/position"
                 android:textAlignment="center"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -119,15 +119,16 @@
                     android:id="@+id/imageView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_baseline_tag_faces_24" />
+                    app:srcCompat="@drawable/ic_baseline_tag_faces_24"
+                    android:contentDescription="@string/face_ratings" />
 
                 <TextView
                     android:id="@+id/tv_ratings"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8sp"
+                    android:layout_marginStart="8sp"
                     android:layout_weight="1"
-                    android:text="rating"
+                    android:text="@string/rating"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -148,7 +149,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Contact us"
+                android:text="@string/contact_us"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -198,34 +199,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="From"
+                    android:text="@string/from"
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tv_ci_from"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8sp"
+                    android:layout_marginStart="8sp"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/textView10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8sp"
+                    android:layout_marginStart="8sp"
                     android:layout_weight="1"
-                    android:text="To"
+                    android:text="@string/to"
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tv_ci_to"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8sp"
+                    android:layout_marginStart="8sp"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -235,7 +236,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
-                android:text="Check-in"
+                android:text="@string/check_in"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -251,14 +252,15 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView3"
                 app:layout_constraintEnd_toStartOf="@+id/textView3"
                 app:layout_constraintTop_toTopOf="@+id/textView3"
-                app:srcCompat="@drawable/ic_baseline_access_time_24" />
+                app:srcCompat="@drawable/ic_baseline_access_time_24"
+                android:contentDescription="@string/clock" />
 
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Check-out"
+                android:text="@string/check_out"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -269,7 +271,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView12">
@@ -279,34 +283,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="From"
+                    android:text="@string/from"
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tv_co_from"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8sp"
+                    android:layout_marginStart="8sp"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8sp"
+                    android:layout_marginStart="8sp"
                     android:layout_weight="1"
-                    android:text="To"
+                    android:text="@string/to"
                     android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tv_co_to"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8sp"
+                    android:layout_marginStart="8sp"
                     android:layout_weight="1"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -327,7 +331,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Show on map"
+                android:text="@string/show_on_map"
                 android:textColor="@color/purple_500"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -342,7 +346,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tv_latlng"
                 app:layout_constraintStart_toEndOf="@+id/tv_latlng"
                 app:layout_constraintTop_toTopOf="@+id/tv_latlng"
-                app:srcCompat="@drawable/ic_baseline_open_in_new_24" />
+                app:srcCompat="@drawable/ic_baseline_open_in_new_24"
+                android:contentDescription="@string/external" />
 
             <TextView
                 android:id="@+id/tv_email"
@@ -350,7 +355,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="TextView"
+                android:text=""
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -365,7 +370,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tv_email"
                 app:layout_constraintEnd_toStartOf="@+id/tv_email"
                 app:layout_constraintTop_toTopOf="@+id/linearLayout4"
-                app:srcCompat="@drawable/ic_baseline_email_24" />
+                app:srcCompat="@drawable/ic_baseline_email_24"
+                android:contentDescription="@string/email" />
 
             <TextView
                 android:id="@+id/tv_phone"
@@ -373,7 +379,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:text="TextView"
+                android:text=""
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -388,14 +394,15 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tv_phone"
                 app:layout_constraintEnd_toStartOf="@+id/tv_phone"
                 app:layout_constraintTop_toTopOf="@+id/tv_phone"
-                app:srcCompat="@drawable/ic_baseline_local_phone_24" />
+                app:srcCompat="@drawable/ic_baseline_local_phone_24"
+                android:contentDescription="@string/phone" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Ratings"
+                android:text="@string/ratings"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

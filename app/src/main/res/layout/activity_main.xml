@@ -48,7 +48,7 @@
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price"
+                android:text="@string/price"
                 android:valueFrom="0"
                 android:valueTo="10000"
                 app:labelBehavior="withinBounds"
@@ -73,7 +73,7 @@
                 android:id="@+id/tv_seek_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="@string/_0"
                 app:layout_constraintBottom_toTopOf="@+id/rangeSeekBar"
                 app:layout_constraintStart_toStartOf="@+id/rangeSeekBar" />
 
@@ -81,7 +81,7 @@
                 android:id="@+id/tv_seek_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="500"
+                android:text="@string/_500"
                 app:layout_constraintBottom_toTopOf="@+id/rangeSeekBar"
                 app:layout_constraintEnd_toEndOf="@+id/rangeSeekBar" />
         </androidx.constraintlayout.widget.ConstraintLayout>

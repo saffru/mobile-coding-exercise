@@ -105,11 +105,11 @@ public class MainActivity extends AppCompatActivity {
     private void handlingHotels() throws JSONException {
         String[] ids = new String[jsonArray.length()];
         String[] names = new String[jsonArray.length()];
-        String[] locations = new String[jsonArray.length()];
+        JSONObject[] locations = new JSONObject[jsonArray.length()];
         int[] stars = new int[jsonArray.length()];
-        JSONObject checkIns = new JSONObject();
-        JSONObject checkOuts = new JSONObject();
-        JSONObject contacts = new JSONObject();
+        JSONObject[] checkIns = new JSONObject[jsonArray.length()];
+        JSONObject[] checkOuts = new JSONObject[jsonArray.length()];
+        JSONObject[] contacts = new JSONObject[jsonArray.length()];
         int[] prices = new int[jsonArray.length()];
         String[] currencies = new String[jsonArray.length()];
 
@@ -119,16 +119,15 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject hotel = jsonArray.getJSONObject(i);
             names[i] = hotel.getString("name");
-            JSONObject location = hotel.getJSONObject(
-                    "location");
             locations[i] =
-                    location.getString("address") + ", " + location.getString("city");
+                    hotel.getJSONObject(
+                            "location");
             stars[i] = hotel.getInt("stars");
-            checkIns = hotel.getJSONObject(
+            checkIns[i] = hotel.getJSONObject(
                     "checkIn");
-            checkOuts = hotel.getJSONObject(
+            checkOuts[i] = hotel.getJSONObject(
                     "checkOut");
-            contacts = hotel.getJSONObject(
+            contacts[i] = hotel.getJSONObject(
                     "contact");
             images[i] = hotel.getJSONArray("gallery");
             ratings[i] = hotel.getString("userRating");
@@ -136,11 +135,9 @@ public class MainActivity extends AppCompatActivity {
             currencies[i] = hotel.getString("currency");
         }
 
-        adapter =
-                new MyListAdapter(MainActivity.this, ids,
-                        names, locations, images,
-                        ratings, prices, currencies,
-                        stars, checkIns, checkOuts, contacts);
+        adapter = new MyListAdapter(MainActivity.this, ids, names, locations, images,
+                ratings, prices, currencies, stars, checkIns, checkOuts, contacts);
+
         list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

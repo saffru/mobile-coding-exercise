@@ -26,23 +26,23 @@ import java.io.Serializable;
 public class MyListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
-    private final String[] id, maintitle, subtitle, ratings, currencies;
+    private final String[] id, maintitle, ratings, currencies;
     private final int[] stars, prices;
-    private final JSONObject checkIn, checkOut, contact;
+    private final JSONObject[] locations, checkIn, checkOut, contact;
     private final JSONArray[] images;
 
 
     public MyListAdapter(Activity context, String[] id, String[] maintitle,
-                         String[] subtitle, JSONArray[] images, String[] ratings,
+                         JSONObject[] locations, JSONArray[] images, String[] ratings,
                          int[] prices, String[] currencies, int[] stars,
-                         JSONObject checkIn, JSONObject checkOut, JSONObject contact) {
+                         JSONObject[] checkIn, JSONObject[] checkOut, JSONObject[] contact) {
         super(context, R.layout.mylist, maintitle);
         // TODO Auto-generated constructor stub
 
         this.context = context;
         this.id = id;
         this.maintitle = maintitle;
-        this.subtitle = subtitle;
+        this.locations = locations;
         this.images = images;
         this.ratings = ratings;
         this.prices = prices;
@@ -53,10 +53,16 @@ public class MyListAdapter extends ArrayAdapter<String> {
         this.contact = contact;
     }
 
+
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.mylist, null, true);
-
+        String address = "-";
+        try {
+            address = String.format("%s, %s", locations[position].getString("address"), locations[position].getString("city"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         CardView card = rowView.findViewById(R.id.card);
 
         TextView titleText = rowView.findViewById(R.id.tv_title);
@@ -74,7 +80,8 @@ public class MyListAdapter extends ArrayAdapter<String> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        subtitleText.setText(subtitle[position]);
+        subtitleText.setText(address);
+
         tv_ratings.setText(ratings[position]);
         tv_price.setText(String.valueOf(prices[position]));
         String currency;
@@ -98,10 +105,29 @@ public class MyListAdapter extends ArrayAdapter<String> {
             image.setLayoutParams(parms);
         }
 
+        String finalAddress = address;
         card.setOnClickListener(v -> {
             Intent i_hotel = new Intent(this.context, HotelActivity.class);
             Bundle b = new Bundle();
+            i_hotel.putExtra("name", maintitle[position]);
+            i_hotel.putExtra("address", finalAddress);
+            i_hotel.putExtra("stars", stars[position]);
+            try {
+                i_hotel.putExtra("checkin_from", checkIn[position].getString("from"));
+                i_hotel.putExtra("checkin_to", checkIn[position].getString("to"));
+                i_hotel.putExtra("checkout_from", checkOut[position].getString("from"));
+                i_hotel.putExtra("checkout_to", checkOut[position].getString("to"));
+                i_hotel.putExtra("phone", contact[position].getString("phoneNumber"));
+                i_hotel.putExtra("email", contact[position].getString("email"));
+                i_hotel.putExtra("lat", locations[position].getString("latitude"));
+                i_hotel.putExtra("lng", checkIn[position].getString("longitude"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             i_hotel.putExtra("images", images[position].toString());
+            i_hotel.putExtra("rating", ratings[position]);
+            i_hotel.putExtra("price", prices[position]);
+            i_hotel.putExtra("currency", currencies[position]);
             i_hotel.putExtras(b);
             context.startActivity(i_hotel);
         });
